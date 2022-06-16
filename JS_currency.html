@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Currency Exchange</title>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+
+      document.querySelector('form').onsubmit = function() {
+
+// Send a GET request to the URL
+    fetch('https://api.exchangerate.host/latest')
+// Put response into json form
+    .then(response => response.json())
+    .then(data => {
+      const currency = document.querySelector('#currency').value.toUpperCase();
+//[] allows us to use variable. 
+      const rate = data.rates[currency];
+      if (rate !== undefined){
+        document.querySelector('#result').innerHTML = `1 USD is equal to ${rate.toFixed(3)} ${currency}`;
+      } else {
+        document.querySelector('#result').innerHTML = 'Invalid currency.';
+      }
+      
+// Log data to the console
+        console.log(data);
+    });
+
+        return false;
+      }
+    
+});
+
+  </script>
+</head>
+
+<body>
+  <form>
+    <input id="currency" placeholder="Currency" type="text">
+    <input type="submit" value="Convert">
+  </form>
+
+  <div id="result">
+
+  </div>
+</body>
+
+</html>
